@@ -18,7 +18,7 @@ public class OrderFileToHttpSoapRoute {
 			@Override
 			public void configure() throws Exception {
 
-				errorHandler(deadLetterChannel("file:erro").
+				errorHandler(deadLetterChannel("file:error").
 						logExhaustedMessageHistory(true).
 						maximumRedeliveries(3).
 						redeliveryDelay(2000).
@@ -33,12 +33,12 @@ public class OrderFileToHttpSoapRoute {
 						})
 				);
 
-				from("file:order?delay=5s&noop=true").
+				from("file:orders?delay=5s&noop=true").
 						routeId("rota-pedidos").
-						to("validator:pedido.xsd");
-//					multicast().
-//						to("direct:soap").
-//						to("direct:http");
+						to("validator:pedido.xsd").
+					multicast().
+						to("direct:soap").
+						to("direct:http");
 
 				from("direct:http").
 						routeId("rota-http").
@@ -50,7 +50,7 @@ public class OrderFileToHttpSoapRoute {
 						xpath("/item/formato[text()='EBOOK']").
 						setProperty("ebookId", xpath("/item/livro/codigo/text()")).
 						marshal().xmljson().
-						//log("${id} - ${body}").
+						log("Sending to HTTP - ${id}").
 								setHeader(Exchange.HTTP_METHOD, HttpMethods.GET).
 						setHeader(Exchange.HTTP_QUERY,simple("ebookId=${property.ebookId}&pedidoId=${property.pedidoId}&clienteId=${property.clienteId}")).
 						to("http4://localhost:8080/webservices/ebook/item");
@@ -58,7 +58,7 @@ public class OrderFileToHttpSoapRoute {
 				from("direct:soap").
 						routeId("rota-soap").
 						to("xslt:pedido-para-soap.xslt").
-						log("${body}").
+						log("Sending to SOAP - ${id}").
 						setHeader(Exchange.CONTENT_TYPE,constant("text/xml")).
 						to("http4://localhost:8080/webservices/financeiro");
 			}
