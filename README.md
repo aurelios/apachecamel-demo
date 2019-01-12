@@ -23,8 +23,6 @@ webservices is a simple representation of a sistem that implements soap or rest 
 
 ```
 1 - Run activemq.bat start or sh activemq start (user: admin/password: admin)
-2 - Create a new Queue "pedidos"
-3 - Create a new Queue "pedidos.DLQ" to receive messages of Dead Letter Queue
 ```
 
 ## apachecamel-demo
