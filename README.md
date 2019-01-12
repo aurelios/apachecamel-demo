@@ -12,14 +12,14 @@ Download and configure Tomcat, Maven and ActiveMQ and start up webservices proje
 * Apache Maven 3.x
 * Apache ActiveMQ 5.x
 
-##webservices
+## webservices
 webservices is a simple representation of a sistem that implements soap or rest webservice.
 ```
 1 - Configure your tomcat 8.x folder on webservices/pom.xml
 2 - Run mvn cargo:run to deploy and start our webservice on tomcat
 ```
 
-##Apache Active MQ
+## Apache Active MQ
 
 ```
 1 - Run activemq.bat start or sh activemq start (user: admin/password: admin)
@@ -27,7 +27,7 @@ webservices is a simple representation of a sistem that implements soap or rest 
 3 - Create a new Queue "pedidos.DLQ" to receive messages of Dead Letter Queue
 ```
 
-##apachecamel-demo
+## apachecamel-demo
 
 Run the integration examples 
 
@@ -42,6 +42,7 @@ Example of a route using File Sharing, Splitter, Message Filter, Content Based R
 ```
 
 OrderMQToHttpSoapRoute
+* Create a Message on ActiveMQ with one the content of the order files.
 ```
 Example of a route using Messaging integration to process data from files and send them to a webservice using http and soap.
 ```
